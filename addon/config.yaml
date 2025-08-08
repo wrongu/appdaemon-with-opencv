@@ -1,0 +1,24 @@
+name: "Lightweight Camera Monitor"
+description: "A lightweight camera monitor for Home Assistant"
+version: "0.1.0"
+slug: "lightweight_camera_monitor"
+init: false
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+homeassistant_api: true
+startup: "application"
+map:
+  - addon_config:rw
+  - data:rw
+  - media:rw
+  - ssl
+options:
+  camera_url: "http://camera-ip-address/stream"
+  polling_interval: 5
+schema:
+  camera_url: url
+  polling_interval: float(0,)
