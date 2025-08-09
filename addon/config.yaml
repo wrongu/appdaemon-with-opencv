@@ -1,24 +1,22 @@
-name: "Lightweight Camera Monitor"
-description: "A lightweight camera monitor for Home Assistant"
-version: "0.1.0"
-slug: "lightweight_camera_monitor"
-init: false
+---
+name: AppDaemon + CV
+version: dev
+slug: appdaemon_cv
+description: AppDaemon but with OpenCV built-in
+webui: http://[HOST]:[PORT:5050]
 arch:
-  - armhf
-  - armv7
   - aarch64
   - amd64
-  - i386
+init: false
 homeassistant_api: true
-startup: "application"
+uart: true
+ports:
+  5050/tcp: 5050
+ports_description:
+  5050/tcp: AppDaemon
 map:
   - addon_config:rw
-  - data:rw
+  - homeassistant_config:rw
   - media:rw
+  - share:rw
   - ssl
-options:
-  camera_url: "http://camera-ip-address/stream"
-  polling_interval: 5
-schema:
-  camera_url: url
-  polling_interval: float(0,)

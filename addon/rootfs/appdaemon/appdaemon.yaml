@@ -1,0 +1,15 @@
+---
+appdaemon:
+  time_zone: EST
+  latitude: 43.0987
+  longitude: 77.4419
+  elevation: 150
+  plugins:
+    HASS:
+      type: hass
+      token: !env_var SUPERVISOR_TOKEN
+http:
+  url: http://0.0.0.0:5050
+admin:
+api:
+hadashboard:
