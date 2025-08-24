@@ -19,10 +19,10 @@ Then go to the addon store and you should see it available as a local addon. Cli
 
 This setup results in two copies of the addon files on the HA instance:
 
-1. `/addons/appdaemon-with-opencv`: a copy of the `<git repo>/addon` subdirectory, discoverable by the addon store
+1. `/addons/appdaemon-with-opencv`: a copy of this git repo, discoverable by the addon store
 2. after build/installation of the addon, a new `/addon_configs/local_appdaemon_cv` directory will appear on the HA instance. When the addon container is run, this directory is mounted to `/config/`.
 
-So, *from inside* the apps, refer to places like `/config/<whatever>/`, which actually points to `/addon_configs/local_appdaemon_cv/<whatever>/`, which is merely a *copy of* the initial `rootfs/` files found in `<git repo>/addon/rootfs/appdaemon/<whatever>/`.
+So, *from inside* the apps, refer to places like `/config/<whatever>/`, which actually points to `/addon_configs/local_appdaemon_cv/<whatever>/`, which is merely a *copy of* the initial `rootfs/` files found in `<this git repo>/rootfs/appdaemon/<whatever>/`.
 
 __Note:__ building this addon takes 20+ minutes due to the OpenCV installation. This build time is paid whenever the supervisor rebuilds addons, which could be on system updates, etc. However, once built, it does accelerate the time to develop apps.
 
