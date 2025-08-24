@@ -20,6 +20,9 @@ RUN /appdaemon/venv/bin/pip install $OPENCV_PACKAGE --no-build-isolation
 # Use pip to install appdaemon, which is what the addon will run.
 RUN /appdaemon/venv/bin/pip install --upgrade multidict appdaemon --no-build-isolation
 
+# Install scikit-learn for some simple CV+ML
+RUN /appdaemon/venv/bin/pip install scikit-learn
+
 # Clean up: remove extra build dependencies that would just bloat the image
 RUN apk del build-base linux-headers samurai cmake
 
