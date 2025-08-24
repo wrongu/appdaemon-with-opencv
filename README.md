@@ -8,12 +8,21 @@ Following [this guide](https://developers.home-assistant.io/docs/add-ons/testing
 
 ## How-to install on Home Assistant OS
 
-Get a copy (ftp, git, whatever) of this repo's `addon` directory onto the machine running HA. The HA supervisor looks for addon-like things in `/addons/`. I found that HA doesn't seem to like symlinks, which adds a few steps... How I have it set up:
+Simplest method is to open a terminal on the HAOS instance and do
 
-1. cloned this git repo to `/config/code/appdaemon-with-opencv`
-2. copied `/config/code/appdaemon-with-opencv/addon` to `/addons/appdaemon-with-opencv`
+```bash
+$ cd /addons
+$ git clone https://github.com/wrongu/appdaemon-with-opencv
+```
 
-If setup correctly, opening the HA landing page and going to settings > addons > store (and maybe "check for updates") should result in this addon appearing as a local option at the top.
+Then go to the addon store and you should see it available as a local addon. Clicking install triggers a long docker build process (20+min). __Warning:__ click install once and leave it be. I crashed my whole HA system by trying to do a core update while this docker build was in progress. build Logs should be available in settings > logs > supervisor.
+
+This setup results in two copies of the addon files on the HA instance:
+
+1. `/addons/appdaemon-with-opencv`: a copy of the `<git repo>/addon` subdirectory, discoverable by the addon store
+2. after build/installation of the addon, a new `/addon_configs/local_appdaemon_cv` directory will appear on the HA instance. When the addon container is run, this directory is mounted to `/config/`.
+
+So, *from inside* the apps, refer to places like `/config/<whatever>/`, which actually points to `/addon_configs/local_appdaemon_cv/<whatever>/`, which is merely a *copy of* the initial `rootfs/` files found in `<git repo>/addon/rootfs/appdaemon/<whatever>/`.
 
 __Note:__ building this addon takes 20+ minutes due to the OpenCV installation. This build time is paid whenever the supervisor rebuilds addons, which could be on system updates, etc. However, once built, it does accelerate the time to develop apps.
 
@@ -25,4 +34,4 @@ Like classic AppDaemon, apps are python files located in `/addon_configs/local_a
 
 ## Extra python dependencies (experimental)
 
-Adding a requirements.txt file to `/addon_configs/local_appdaemon_cv/apps/` (which maps to `/config/apps/` inside the AD docker container) should in theory trigger additional packages to be installed at startup time.
+Adding a file to `/addon_configs/local_appdaemon_cv/apps/requirements.txt` (which maps to `/config/apps/requirements.txt` inside the AD docker container) should in theory trigger additional packages to be installed at startup time.
