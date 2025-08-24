@@ -12,5 +12,10 @@ if [ ! -d /config/apps ]; then
   cp -r /appdaemon/apps /config/apps || exit 1
 fi
 
+if [ -f /config/apps/requirements.txt ]; then
+  echo "Installing additional requirements from /config/apps/requirements.txt"
+  /appdaemon/venv/bin/pip install -r /config/apps/requirements.txt || exit 1
+fi
+
 # Start the daemon
 /appdaemon/venv/bin/appdaemon -c /config
