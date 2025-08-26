@@ -1,5 +1,11 @@
 #!/bin/sh
 
+if [ ! -d /config ]; then
+  echo "/config directory not found (when run as a homeassistant addon, the host should mount" \
+    "e.g. /addon_configs/local_appdaemon_cv on the host to /config in the container)"
+  exit 1
+fi
+
 # Presumably the first run: copy the default config into the /config directory which
 # should be mounted by the HA docker host
 if [ ! -f /config/appdaemon.yaml ]; then
